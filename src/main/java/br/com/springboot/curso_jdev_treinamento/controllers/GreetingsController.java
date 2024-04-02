@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -77,7 +78,20 @@ public class GreetingsController {
     	
     }
     
-    
+    @PutMapping(value = "atualizar") // mapear a url
+    @ResponseBody //descrição da resposta
+    public ResponseEntity<?> atualizar(@RequestBody Usuario usuario){ // recebe o objeto
+    	
+    	
+    	if(usuario.getId() == null) {
+    		return new ResponseEntity<String>("ID não foi informado. Para continuar, deve inserir o ID", HttpStatus.OK);
+    	}
+    	
+    	Usuario user = usuarioRepository.saveAndFlush(usuario);
+    	
+    	return new ResponseEntity<Usuario>(user, HttpStatus.OK);
+    	
+    }
     
     @DeleteMapping(value = "deletar") // mapear a url
     @ResponseBody //descrição da resposta
@@ -89,6 +103,16 @@ public class GreetingsController {
     	
     }
     
+    //buscarusuarioid
+    @GetMapping(value = "buscarusuarioid") // mapear a url
+    @ResponseBody //descrição da resposta
+    public ResponseEntity<Usuario> buscarusuarioid(@RequestParam(name = "idUser") Long idUser){ // recebe o objeto para consulta
+    	
+    	Usuario usuario = usuarioRepository.findById(idUser).get();
+    	
+    	return new ResponseEntity<Usuario>(usuario, HttpStatus.OK);
+    	
+    }    
     
 }
 
