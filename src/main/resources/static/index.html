@@ -132,8 +132,11 @@ html{
 	
 	function botaoDeletarDaTela(){
 		var id = 	$('#id').val();
-		deleteUser(id);
-		limparFormulario();
+		if(id != null && id.trim() != ''){
+			deleteUser(id);
+			limparFormulario();
+			
+		}
 		
 	}
 	
@@ -212,6 +215,17 @@ html{
 			};
 
 			var dadosJSON = JSON.stringify(dados);
+			
+			if(nome == null || nome != null && nome.trim() == ''){
+				alert('Informe o nome!')
+				return;
+			}
+			
+			if(idade == null || idade != null && idade.trim() == ''){
+				alert('Informe a idade!')
+				return;
+			}
+
 
 			$.ajax({
 				method : 'POST',
